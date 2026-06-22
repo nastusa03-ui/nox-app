@@ -1,1007 +1,517 @@
 /* ========================================
-   NOX — Main Application Logic
+   NOX — Main Application Logic v2
+   Fixes: full i18n, long press, dashboard tasks
    ======================================== */
 
 const i18n = {
   en: {
-    welcome: 'Welcome to your darkness',
-    whoAreYou: 'WHO ARE YOU?',
-    yourGoals: 'YOUR GOALS',
-    currentHabits: 'CURRENT HABITS',
-    inYourWords: 'IN YOUR OWN WORDS',
-    initialize: 'INITIALIZE',
-    continue: 'CONTINUE →',
-    launchNox: '◆ LAUNCH NOX',
-    goodMorning: 'Good morning,',
-    goodAfternoon: 'Good afternoon,',
-    goodEvening: 'Good evening,',
-    dashboard: 'Dashboard',
-    schedule: 'Schedule',
-    habits: 'Habits',
-    journal: 'Journal',
-    games: 'Games',
-    social: 'Social',
-    chain: 'Chain',
-    todayProgress: "TODAY'S PROGRESS",
-    nextUp: 'NEXT UP',
-    howFeeling: 'HOW ARE YOU FEELING?',
-    dayStreak: 'DAY STREAK',
-    quickNote: 'QUICK NOTE',
-    save: 'SAVE',
-    saved: 'SAVED ✓',
-    viewFull: 'VIEW FULL →',
-    moodHint: 'Tap to log your mood',
-    addTask: '+ ADD TASK',
-    newHabit: '+ NEW HABIT',
-    newEntry: '+ NEW ENTRY',
-    add: 'ADD',
-    cancel: 'CANCEL',
-    title: 'TITLE',
-    mood: 'MOOD',
-    saveEntry: 'SAVE ENTRY',
-    weeklyOverview: 'WEEKLY OVERVIEW',
-    comingSoon: 'COMING SOON',
-    memoryChain: 'Memory Chain',
-    reactionSpeed: 'Reaction Speed',
-    focusZone: 'Focus Zone',
-    shadowTypist: 'Shadow Typist',
-    trainMemory: 'Train your memory',
-    testReflexes: 'Test your reflexes',
-    deepConcentration: 'Deep concentration',
-    typeToSurvive: 'Type to survive',
-    close: '✕ CLOSE',
-    settings: 'SETTINGS',
-    taskDone: 'Task completed!',
-    edit: 'Edit',
-    makeRecurring: 'Make Recurring',
-    delete: 'Delete',
+    welcome: 'Welcome to your darkness', chooseLang: 'CHOOSE LANGUAGE',
+    selectLang: 'Select your preferred interface language.',
+    whoAreYou: 'WHO ARE YOU?', tellAbout: 'Tell us about yourself. We\'ll shape NOX around you.',
+    yourName: 'YOUR NAME', enterName: 'Enter your name', age: 'AGE', yourAge: 'Your age',
+    timezone: 'YOUR TIMEZONE', selectTz: 'Select timezone',
+    goals: 'YOUR GOALS', goalsDesc: 'What do you want to achieve? Select all that apply.',
+    productivity: 'Productivity', health: 'Health & Fitness', learning: 'Learning',
+    mental: 'Mental Peace', finance: 'Finance', social: 'Social Life',
+    creativity: 'Creativity', sleep: 'Better Sleep',
+    habits: 'CURRENT HABITS', habitsDesc: 'Be honest. NOX doesn\'t judge — it adapts.',
+    morningRoutine: 'Morning routine?', exercise: 'Exercise regularly?',
+    trackSleep: 'Track your sleep?', meditation: 'Meditation or mindfulness?',
+    screenTime: 'Screen time before bed?',
+    ownWords: 'IN YOUR OWN WORDS',
+    ownWordsDesc: 'Tell us anything about yourself. Your life, your challenges, your dreams.',
+    energyPeak: 'YOUR DAILY ENERGY PEAK',
+    initialize: 'INITIALIZE', initDesc: 'NOX will now calibrate to your profile.',
+    launch: '◆ LAUNCH NOX', continue: 'CONTINUE →',
+    greeting_m: 'Good morning,', greeting_a: 'Good afternoon,', greeting_e: 'Good evening,',
+    dashboard: 'Dashboard', schedule: 'Schedule', habits_nav: 'Habits',
+    journal: 'Journal', games: 'Games', social: 'Social', chain: 'Chain',
+    progress: "TODAY'S PROGRESS", nextUp: 'NEXT UP', moodTitle: 'HOW ARE YOU FEELING?',
+    moodHint: 'Tap to log your mood', streak: 'DAY STREAK', quickNote: 'QUICK NOTE',
+    save: 'SAVE', saved: 'SAVED ✓', viewFull: 'VIEW FULL →',
+    addTask: '+ ADD TASK', newHabit: '+ NEW HBIT', newEntry: '+ NEW ENTRY',
+    title: 'TITLE', mood: 'MOOD', saveEntry: 'SAVE', cancel: 'CANCEL',
+    weekOverview: 'WEEKLY OVERVIEW', comingSoon: 'COMING SOON',
+    memory: 'Memory Chain', reaction: 'Reaction Speed',
+    focus: 'Focus Zone', typist: 'Shadow Typist',
+    trainMem: 'Train your memory', testReflex: 'Test your reflexes',
+    deepFocus: 'Deep concentration', typeSurvive: 'Type to survive',
+    settings: 'SETTINGS', close: '✕ CLOSE',
+    edit: '✏️ Edit', recurring: '🔄 Make Recurring', del: '🗑️ Delete',
+    addHabitTitle: '+ NEW HABIT', habitName: 'HABIT NAME',
+    habitIcon: 'ICON (emoji)', addBtn: 'ADD',
+    wallet: 'Wallet Connection', mining: 'Mining Rewards', profile: 'Decentralized Profile',
   },
   ru: {
-    welcome: 'Добро пожаловать в твою тьму',
-    whoAreYou: 'КТО ТЫ?',
-    yourGoals: 'ТВОИ ЦЕЛИ',
-    currentHabits: 'ТЕКУЩИЕ ПРИВЫЧКИ',
-    inYourWords: 'СВОИМИ СЛОВАМИ',
-    initialize: 'ИНИЦИАЛИЗАЦИЯ',
-    continue: 'ДАЛЕЕ →',
-    launchNox: '◆ ЗАПУСТИТЬ NOX',
-    goodMorning: 'Доброе утро,',
-    goodAfternoon: 'Добрый день,',
-    goodEvening: 'Добрый вечер,',
-    dashboard: 'Главная',
-    schedule: 'Расписание',
-    habits: 'Привычки',
-    journal: 'Дневник',
-    games: 'Игры',
-    social: 'Соцсеть',
-    chain: 'Блокчейн',
-    todayProgress: 'ПРОГРЕСС ЗА ДЕНЬ',
-    nextUp: 'ДАЛЕЕ',
-    howFeeling: 'КАК ТЫ ЧУВСТВУЕШЬ СЕБЯ?',
-    dayStreak: 'ДНЕЙ ПОДРЯД',
-    quickNote: 'БЫСТРАЯ ЗАМЕТКА',
-    save: 'СОХРАНИТЬ',
-    saved: 'СОХРАНЕНО ✓',
-    viewFull: 'ПОЛНОСТЬЮ →',
-    moodHint: 'Нажми чтобы отметить настроение',
-    addTask: '+ ДОБАВИТЬ ЗАДАЧУ',
-    newHabit: '+ НОВАЯ ПРИВЫЧКА',
-    newEntry: '+ НОВАЯ ЗАПИСЬ',
-    add: 'ДОБАВИТЬ',
-    cancel: 'ОТМЕНА',
-    title: 'ЗАГОЛОВОК',
-    mood: 'НАСТРОЕНИЕ',
-    saveEntry: 'СОХРАНИТЬ',
-    weeklyOverview: 'ИТОГИ НЕДЕЛИ',
-    comingSoon: 'СКОРО',
-    memoryChain: 'Цепь памяти',
-    reactionSpeed: 'Скорость реакции',
-    focusZone: 'Зона фокуса',
-    shadowTypist: 'Теневой печатник',
-    trainMemory: 'Тренируй память',
-    testReflexes: 'Проверь рефлексы',
-    deepConcentration: 'Глубокая концентрация',
-    typeToSurvive: 'Печатай чтобы выжить',
-    close: '✕ ЗАКРЫТЬ',
-    settings: 'НАСТРОЙКИ',
-    taskDone: 'Задача выполнена!',
-    edit: 'Редактировать',
-    makeRecurring: 'Сделать регулярной',
-    delete: 'Удалить',
+    welcome: 'Добро пожаловать в твою тьму', chooseLang: 'ВЫБЕРИ ЯЗЫК',
+    selectLang: 'Выбери язык интерфейса.',
+    whoAreYou: 'КТО ТЫ?', tellAbout: 'Расскажи о себе. NOX подстроится под тебя.',
+    yourName: 'ИМЯ', enterName: 'Введи имя', age: 'ВОЗРАСТ', yourAge: 'Твой возраст',
+    timezone: 'ЧАСОВОЙ ПОЯС', selectTz: 'Выбери пояс',
+    goals: 'ТВОИ ЦЕЛИ', goalsDesc: ' чего ты хочешь достичь? Выбери всё что подходит.',
+    productivity: 'Продуктивность', health: 'Здоровье и спорт', learning: 'Обучение',
+    mental: 'Ментальный покой', finance: 'Финансы', social: 'Общение',
+    creativity: 'Креативность', sleep: 'Лучший сон',
+    habits: 'ТЕКУЩИЕ ПРИВЫЧКИ', habitsDesc: 'Будь честен. NOX не судит — он адаптируется.',
+    morningRoutine: 'Утренняя рутина?', exercise: 'Занимаешься спортом?',
+    trackSleep: 'Отслеживаешь сон?', meditation: 'Медитация или осознанность?',
+    screenTime: 'Гаджеты перед сном?',
+    ownWords: 'СВОИМИ СЛОВАМИ',
+    ownWordsDesc: 'Расскажи что угодно о себе. Твоя жизнь, вызовы, мечты.',
+    energyPeak: 'ПИК ТВОЕЙ ЭНЕРГИИ',
+    initialize: 'ИНИЦИАЛИЗАЦИЯ', initDesc: 'NOX сейчас калибруется под твой профиль.',
+    launch: '◆ ЗАПУСТИТЬ NOX', continue: 'ДАЛЕЕ →',
+    greeting_m: 'Доброе утро,', greeting_a: 'Добрый день,', greeting_e: 'Добрый вечер,',
+    dashboard: 'Главная', schedule: 'Расписание', habits_nav: 'Привычки',
+    journal: 'Дневник', games: 'Игры', social: 'Соцсеть', chain: 'Блокчейн',
+    progress: 'ПРОГРЕСС ЗА ДЕНЬ', nextUp: 'ДАЛЕЕ', moodTitle: 'КАК ТЫ ЧУВСТВУЕШЬ СЕБЯ?',
+    moodHint: 'Нажми чтобы отметить настроение', streak: 'ДНЕЙ ПОДРЯД', quickNote: 'БЫСТРАЯ ЗАМЕТКА',
+    save: 'СОХРАНИТЬ', saved: 'СОХРАНЕНО ✓', viewFull: 'ПОЛНОСТЬЮ →',
+    addTask: '+ ДОБАВИТЬ ЗАДАЧУ', newHabit: '+ НОВАЯ ПРИВЫЧКА', newEntry: '+ НОВАЯ ЗАПИСЬ',
+    title: 'ЗАГОЛОВОК', mood: 'НАСТРОЕНИЕ', saveEntry: 'СОХРАНИТЬ', cancel: 'ОТМЕНА',
+    weekOverview: 'ИТОГИ НЕДЕЛИ', comingSoon: 'СКОРО',
+    memory: 'Цепь памяти', reaction: 'Скорость реакции',
+    focus: 'Зона фокуса', typist: 'Теневой печатник',
+    trainMem: 'Тренируй память', testReflex: 'Проверь рефлексы',
+    deepFocus: 'Глубокая концентрация', typeSurvive: 'Печатай чтобы выжить',
+    settings: 'НАСТРОЙКИ', close: '✕ ЗАКРЫТЬ',
+    edit: '✏️ Редактировать', recurring: '🔄 Сделать регулярной', del: '🗑️ Удалить',
+    addHabitTitle: '+ НОВАЯ ПРИВЫЧКА', habitName: 'НАЗВАНИЕ',
+    habitIcon: 'ИКОНКА (эмодзи)', addBtn: 'ДОБАВИТЬ',
+    wallet: 'Подключение кошелька', mining: 'Майнинг', profile: 'Децентрализованный профиль',
   },
   uk: {
-    welcome: 'Ласкаво просимо до своєї темряви',
-    whoAreYou: 'ХТО ТИ?',
-    yourGoals: 'ТВОЇ ЦІЛІ',
-    currentHabits: 'ПОТОЧНІ ЗВИЧКИ',
-    inYourWords: 'СВОЇМИ СЛОВАМИ',
-    initialize: 'ІНІЦІАЛІЗАЦІЯ',
-    continue: 'ДАЛІ →',
-    launchNox: '◆ ЗАПУСТИТИ NOX',
-    goodMorning: 'Доброго ранку,',
-    goodAfternoon: 'Доброго дня,',
-    goodEvening: 'Доброго вечора,',
-    dashboard: 'Головна',
-    schedule: 'Розклад',
-    habits: 'Звички',
-    journal: 'Щоденник',
-    games: 'Ігри',
-    social: 'Соцмережа',
-    chain: 'Блокчейн',
-    todayProgress: 'ПРОГРЕСС ЗА ДЕНЬ',
-    nextUp: 'ДАЛІ',
-    howFeeling: 'ЯК ТИ ПОЧУВАЄШЬСЯ?',
-    dayStreak: 'ДНІВ ПІДРЯД',
-    quickNote: 'ШВИДКА НОТАТКА',
-    save: 'ЗБЕРЕГТИ',
-    saved: 'ЗБЕРЕЖЕНО ✓',
-    viewFull: 'ПОВНІСТЮ →',
-    moodHint: 'Натисни щоб позначити настрій',
-    addTask: '+ ДОДАТИ ЗАВДАННЯ',
-    newHabit: '+ НОВА ЗВИЧКА',
-    newEntry: '+ НОВИЙ ЗАПИС',
-    add: 'ДОДАТИ',
-    cancel: 'СКАСУВАТИ',
-    title: 'ЗАГОЛОВОК',
-    mood: 'НАСТРІЙ',
-    saveEntry: 'ЗБЕРЕГТИ',
-    weeklyOverview: 'ПІДСУМКИ ТИЖНЯ',
-    comingSoon: 'СКОРО',
-    memoryChain: 'Ланцюг пам\'яті',
-    reactionSpeed: 'Швидкість реакції',
-    focusZone: 'Зона фокусу',
-    shadowTypist: 'Тіньовий друкар',
-    trainMemory: 'Тренуй пам\'ять',
-    testReflexes: 'Перевір рефлекси',
-    deepConcentration: 'Глибока концентрація',
-    typeToSurvive: 'Друкуй щоб вижити',
-    close: '✕ ЗАКРИТИ',
-    settings: 'НАЛАШТУВАННЯ',
-    taskDone: 'Завдання виконано!',
-    edit: 'Редагувати',
-    makeRecurring: 'Зробити регулярним',
-    delete: 'Видалити',
+    welcome: 'Ласкаво просимо до своєї темряви', chooseLang: 'ОБЕРІТЬ МОВУ',
+    selectLang: 'Оберіть мову інтерфейсу.',
+    whoAreYou: 'ХТО ТИ?', tellAbout: 'Розкажи про себе. NOX підлаштується під тебе.',
+    yourName: 'ІМ\'Я', enterName: 'Введіть ім\'я', age: 'ВІК', yourAge: 'Ваш вік',
+    timezone: 'ЧАСОВИЙ ПОЯС', selectTz: 'Оберіть пояс',
+    goals: 'ТВОЇ ЦІЛІ', goalsDesc: 'Чого ви хочете досягти? Оберіть все що підходить.',
+    productivity: 'Продуктивність', health: 'Здоров\'я і спорт', learning: 'Навчання',
+    mental: 'Ментальний спокій', finance: 'Фінанси', social: 'Спілкування',
+    creativity: 'Креативність', sleep: 'Кращий сон',
+    habits: 'ПОТОЧНІ ЗВИЧКИ', habitsDesc: 'Будь чесним. NOX не судить — він адаптується.',
+    morningRoutine: 'Ранкова рутина?', exercise: 'Займаєтесь спортом?',
+    trackSleep: 'Відстежуєте сон?', meditation: 'Медитація чи усвідомленість?',
+    screenTime: 'Гаджети перед сном?',
+    ownWords: 'СВОЇМИ СЛОВАМИ',
+    ownWordsDesc: 'Розкажіть що завгодно про себе. Ваше життя, виклики, мрії.',
+    energyPeak: 'ПІК ВАШОЇ ЕНЕРГІЇ',
+    initialize: 'ІНІЦІАЛІЗАЦІЯ', initDesc: 'NOX зараз калібрується під ваш профіль.',
+    launch: '◆ ЗАПУСТИТИ NOX', continue: 'ДАЛІ →',
+    greeting_m: 'Доброго ранку,', greeting_a: 'Доброго дня,', greeting_e: 'Доброго вечора,',
+    dashboard: 'Головна', schedule: 'Розклад', habits_nav: 'Звички',
+    journal: 'Щоденник', games: 'Ігри', social: 'Соцмережа', chain: 'Блокчейн',
+    progress: 'ПРОГРЕС ЗА ДЕНЬ', nextUp: 'ДАЛІ', moodTitle: 'ЯК ТИ ПОЧУВАЄШЬСЯ?',
+    moodHint: 'Натисни щоб позначити настрій', streak: 'ДНІВ ПІДРЯД', quickNote: 'ШВИДКА НОТАТКА',
+    save: 'ЗБЕРЕГТИ', saved: 'ЗБЕРЕЖЕНО ✓', viewFull: 'ПОВНІСТЮ →',
+    addTask: '+ ДОДАТИ ЗАВДАННЯ', newHabit: '+ НОВА ЗВИЧКА', newEntry: '+ НОВИЙ ЗАПИС',
+    title: 'ЗАГОЛОВОК', mood: 'НАСТРІЙ', saveEntry: 'ЗБЕРЕГТИ', cancel: 'СКАСУВАТИ',
+    weekOverview: 'ПІДСУМКИ ТИЖНЯ', comingSoon: 'СКОРО',
+    memory: 'Ланцюг пам\'яті', reaction: 'Швидкість реакції',
+    focus: 'Зона фокусу', typist: 'Тіньовий друкар',
+    trainMem: 'Тренуй пам\'ять', testReflex: 'Перевір рефлекси',
+    deepFocus: 'Глибока концентрація', typeSurvive: 'Друкуй щоб вижити',
+    settings: 'НАЛАШТУВАННЯ', close: '✕ ЗАКРИТИ',
+    edit: '✏️ Редагувати', recurring: '🔄 Зробити регулярним', del: '🗑️ Видалити',
+    addHabitTitle: '+ НОВА ЗВИЧКА', habitName: 'НАЗВА',
+    habitIcon: 'ІКОНКА (емодзі)', addBtn: 'ДОДАТИ',
+    wallet: 'Підключення гаманця', mining: 'Майнінг', profile: 'Децентралізований профіль',
   },
 };
 
 let state = {
-  user: {
-    name: '',
-    age: '',
-    timezone: '',
-    goals: [],
-    story: '',
-    energyPeak: '',
-    mood: null,
-    streak: 7,
-    habits: [],
-    notes: [],
-    journal: [],
-    lang: 'en',
-    recurringTasks: [],
-    completedTasks: {},
-  },
-  currentStep: 0,
-  currentSection: 'dashboard',
-  initialized: false,
+  user: { name:'', age:'', timezone:'', goals:[], story:'', energyPeak:'', mood:null,
+    streak:7, habits:[], notes:[], journal:[], lang:'en', recurringTasks:[], completedTasks:{} },
+  currentStep: 0, currentSection: 'dashboard',
 };
 
-const t = (key) => i18n[state.user.lang]?.[key] || i18n.en[key] || key;
+const T = (k) => i18n[state.user.lang]?.[k] || i18n.en[k] || k;
 
-const quotes = [
-  "The only way out is through.",
-  "Darkness is not the absence of light — it's the beginning of something new.",
-  "Embrace the chaos. Find your order.",
-  "You are the architect of your own reality.",
-  "In the void, we find our purpose.",
-  "Discipline is the bridge between goals and accomplishment.",
-  "The night is darkest before the dawn.",
-  "Your habits shape your destiny.",
-  "Master your time, master your life.",
-  "Growth begins where comfort ends.",
-];
+const quotes = {
+  en: ["The only way out is through.","Darkness is the beginning of something new.","Embrace the chaos. Find your order.","You are the architect of your reality.","In the void, we find our purpose.","The night is darkest before the dawn.","Your habits shape your destiny.","Growth begins where comfort ends."],
+  ru: ["Единственный выход — через.","Тьма — начало чего-то нового.","Прими хаос. Найди свой порядок.","Ты — архитектор своей реальности.","В пустоте мы находим цель.","Тьма всего ночь перед рассветом.","Твои привычки формируют судьбу.","Рост начинается за пределами комфорта."],
+  uk: ["Єдиний вихід — через.","Темрява — це початок чогось нового.","Прийми хаос. Знайди свій порядок.","Ти — архітектор своєї реальності.","У порожнечі ми знаходимо мету.","Темрява — це лише ніч перед світанком.","Твої звички формують твою долю.","Зростання починається за межами комфорту."],
+};
 
-const ruQuotes = [
-  "Единственный выход — через.",
-  "Тьма — это не отсутствие света, а начало чего-то нового.",
-  "Прими хаос. Найди свой порядок.",
-  "Ты — архитектор своей реальности.",
-  "В пустоте мы находим свою цель.",
-  "Дисциплина — мост между целями и результатами.",
-  "Тьма всего ночь перед рассветом.",
-  "Твои привычки формируют твою судьбу.",
-  "Управляй временем — управляй жизнью.",
-  "Рост начинается там, где заканчивается комфорт.",
-];
+function getQuote() { const a = quotes[state.user.lang] || quotes.en; return a[Math.floor(Math.random()*a.length)]; }
 
-function getQuote() {
-  const arr = state.user.lang === 'ru' ? ruQuotes : quotes;
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-// ===== BOOT SEQUENCE =====
+// ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     document.getElementById('boot-screen').style.display = 'none';
     const saved = localStorage.getItem('nox_user');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        state.user = { ...state.user, ...parsed };
-        if (state.user.name) {
-          showApp();
-          return;
-        }
-      } catch(e) {}
-    }
+    if (saved) { try { state.user = {...state.user,...JSON.parse(saved)}; if(state.user.name){showApp();return;} }catch(e){} }
     document.getElementById('onboarding').classList.remove('hidden');
   }, 3500);
-
-  updateClock();
-  setInterval(updateClock, 1000);
+  updateClock(); setInterval(updateClock, 1000);
   setInterval(autoSave, 30000);
   setupLongPress();
+  setupDashboardTasks();
 });
 
-// ===== AUTO SAVE =====
-function autoSave() {
-  if (state.user.name) {
-    localStorage.setItem('nox_user', JSON.stringify(state.user));
-  }
-}
+function autoSave() { if(state.user.name) localStorage.setItem('nox_user', JSON.stringify(state.user)); }
 
-// ===== CLOCK =====
 function updateClock() {
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-  const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-  const el = document.getElementById('current-time');
-  if (el) el.textContent = `${dateStr} · ${timeStr}`;
+  const n=new Date(), t=n.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false});
+  const d=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  const el=document.getElementById('current-time');
+  if(el) el.textContent=`${d} · ${t}`;
 }
 
 // ===== LANGUAGE =====
 function selectLang(btn) {
-  document.querySelectorAll('.lang-card').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.lang-card').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   state.user.lang = btn.dataset.lang;
   autoSave();
 }
 
+// ===== i18n APPLIER =====
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const translated = T(key);
+    if (translated) el.textContent = translated;
+  });
+}
+
 // ===== ONBOARDING =====
 function nextStep() {
-  const steps = document.querySelectorAll('.onboard-step');
-  const dots = document.querySelectorAll('.step-dot');
-
+  const steps=document.querySelectorAll('.onboard-step'), dots=document.querySelectorAll('.step-dot');
   collectStepData(state.currentStep);
-
-  if (state.currentStep === 1) {
-    const name = document.getElementById('user-name').value.trim();
-    if (!name) {
-      shakeElement(document.getElementById('user-name'));
-      return;
-    }
-  }
-
+  if(state.currentStep===1){const n=document.getElementById('user-name').value.trim();if(!n){shakeElement(document.getElementById('user-name'));return;}}
   steps[state.currentStep].classList.remove('active');
   dots[state.currentStep].classList.remove('active');
   dots[state.currentStep].classList.add('done');
-
   state.currentStep++;
-
-  if (state.currentStep < steps.length) {
-    steps[state.currentStep].classList.add('active');
-    dots[state.currentStep].classList.add('active');
-  }
-
-  if (state.currentStep === steps.length - 1) {
-    populateSummary();
-  }
+  if(state.currentStep<steps.length){steps[state.currentStep].classList.add('active');dots[state.currentStep].classList.add('active');}
+  if(state.currentStep===steps.length-1) populateSummary();
 }
 
 function collectStepData(step) {
-  switch (step) {
+  switch(step){
     case 0: break;
-    case 1:
-      state.user.name = document.getElementById('user-name').value.trim();
-      state.user.age = document.getElementById('user-age').value;
-      state.user.timezone = document.getElementById('user-timezone').value;
-      break;
-    case 2:
-      state.user.goals = Array.from(document.querySelectorAll('.goal-card.selected'))
-        .map(c => c.dataset.goal);
-      break;
-    case 3:
-      state.user.habits = [];
-      document.querySelectorAll('.habit-item').forEach(item => {
-        const label = item.querySelector('label').textContent;
-        const active = item.querySelector('.toggle-btn.active');
-        state.user.habits.push({
-          question: label,
-          value: active ? active.dataset.value : 'no'
-        });
-      });
-      break;
-    case 4:
-      state.user.story = document.getElementById('user-story').value;
-      state.user.energyPeak = document.getElementById('energy-peak').value;
-      break;
+    case 1: state.user.name=document.getElementById('user-name').value.trim();state.user.age=document.getElementById('user-age').value;state.user.timezone=document.getElementById('user-timezone').value; break;
+    case 2: state.user.goals=Array.from(document.querySelectorAll('.goal-card.selected')).map(c=>c.dataset.goal); break;
+    case 3: state.user.habits=[]; document.querySelectorAll('.habit-item').forEach(i=>{const l=i.querySelector('label').textContent;const a=i.querySelector('.toggle-btn.active');state.user.habits.push({q:l,v:a?a.dataset.value:'no'});}); break;
+    case 4: state.user.story=document.getElementById('user-story').value;state.user.energyPeak=document.getElementById('energy-peak').value; break;
   }
 }
 
-function toggleGoal(el) {
-  el.classList.toggle('selected');
+function toggleGoal(el){el.classList.toggle('selected');}
+function selectToggle(btn){btn.parentElement.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+
+function shakeElement(el){el.style.animation='none';el.offsetHeight;el.style.animation='shake 0.5s ease';el.style.borderColor='var(--neon-pink)';setTimeout(()=>{el.style.borderColor='';},2000);}
+
+function populateSummary(){
+  document.getElementById('sum-name').textContent=state.user.name||'—';
+  document.getElementById('sum-age').textContent=state.user.age||'—';
+  document.getElementById('sum-tz').textContent=state.user.timezone||'—';
+  document.getElementById('sum-goals').textContent=state.user.goals.length>0?state.user.goals.join(', '):'—';
+  document.getElementById('sum-energy').textContent=state.user.energyPeak||'—';
 }
 
-function selectToggle(btn) {
-  const group = btn.parentElement;
-  group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
+function launchNox(){collectStepData(4);localStorage.setItem('nox_user',JSON.stringify(state.user));showApp();}
 
-function shakeElement(el) {
-  el.style.animation = 'none';
-  el.offsetHeight;
-  el.style.animation = 'shake 0.5s ease';
-  el.style.borderColor = 'var(--neon-pink)';
-  setTimeout(() => { el.style.borderColor = ''; }, 2000);
-}
-
-function populateSummary() {
-  document.getElementById('sum-name').textContent = state.user.name || '—';
-  document.getElementById('sum-age').textContent = state.user.age || '—';
-  document.getElementById('sum-tz').textContent = state.user.timezone || '—';
-  document.getElementById('sum-goals').textContent =
-    state.user.goals.length > 0 ? state.user.goals.join(', ') : '—';
-  document.getElementById('sum-energy').textContent = state.user.energyPeak || '—';
-}
-
-function launchNox() {
-  collectStepData(4);
-  localStorage.setItem('nox_user', JSON.stringify(state.user));
-  showApp();
-}
-
-function showApp() {
+function showApp(){
   document.getElementById('onboarding').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
-
-  const saved = localStorage.getItem('nox_user');
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      state.user = { ...state.user, ...parsed };
-    } catch(e) {}
-  }
-
-  const greetingName = document.getElementById('greeting-name');
-  const avatarLetter = document.getElementById('avatar-letter');
-  if (greetingName) greetingName.textContent = state.user.name || 'User';
-  if (avatarLetter) avatarLetter.textContent = (state.user.name || 'N')[0].toUpperCase();
-
-  updateGreeting();
-  updateProgressRing(65);
-  updateStreak(state.user.streak);
-  document.getElementById('greeting-quote').textContent = getQuote();
+  const s=localStorage.getItem('nox_user');if(s){try{state.user={...state.user,...JSON.parse(s)};}catch(e){}}
+  document.getElementById('greeting-name').textContent=state.user.name||'User';
+  document.getElementById('avatar-letter').textContent=(state.user.name||'N')[0].toUpperCase();
+  applyTranslations();
+  updateGreeting();updateProgressRing(65);updateStreak(state.user.streak);
+  document.getElementById('greeting-quote').textContent=getQuote();
   restoreCompletedTasks();
 }
 
-// ===== GREETING =====
-function updateGreeting() {
-  const hour = new Date().getHours();
-  const el = document.getElementById('greeting-msg');
-  if (hour < 12) el.textContent = t('goodMorning');
-  else if (hour < 18) el.textContent = t('goodAfternoon');
-  else el.textContent = t('goodEvening');
+function updateGreeting(){
+  const h=new Date().getHours(),el=document.getElementById('greeting-msg');
+  if(h<12)el.textContent=T('greeting_m');else if(h<18)el.textContent=T('greeting_a');else el.textContent=T('greeting_e');
 }
 
-// ===== PROGRESS RING =====
-function updateProgressRing(pct) {
-  const ring = document.getElementById('daily-progress-ring');
-  if (!ring) return;
-  const circumference = 339.292;
-  const offset = circumference - (pct / 100) * circumference;
-  ring.style.strokeDashoffset = offset;
-
-  const svg = ring.closest('svg');
-  let defs = svg.querySelector('defs');
-  if (!defs) {
-    defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-    defs.innerHTML = `
-      <linearGradient id="neon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#b829dd"/>
-        <stop offset="100%" style="stop-color:#05d9e8"/>
-      </linearGradient>`;
-    svg.prepend(defs);
-  }
-  ring.style.stroke = 'url(#neon-gradient)';
-  document.getElementById('daily-pct').textContent = pct + '%';
+function updateProgressRing(pct){
+  const ring=document.getElementById('daily-progress-ring');if(!ring)return;
+  const c=339.292,o=c-(pct/100)*c;ring.style.strokeDashoffset=o;
+  const svg=ring.closest('svg');let d=svg.querySelector('defs');
+  if(!d){d=document.createElementNS('http://www.w3.org/2000/svg','defs');d.innerHTML='<linearGradient id="neon-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#b829dd"/><stop offset="100%" style="stop-color:#05d9e8"/></linearGradient>';svg.prepend(d);}
+  ring.style.stroke='url(#neon-gradient)';
+  document.getElementById('daily-pct').textContent=pct+'%';
 }
 
-// ===== STREAK =====
-function updateStreak(count) {
-  document.getElementById('streak-count').textContent = count;
-  document.getElementById('streak-flames').textContent = '🔥'.repeat(Math.min(count, 10));
-}
+function updateStreak(count){document.getElementById('streak-count').textContent=count;document.getElementById('streak-flames').textContent='🔥'.repeat(Math.min(count,10));}
 
 // ===== MOOD =====
-function selectMood(btn) {
-  document.querySelectorAll('.mood-selector:not(.small) .mood-btn').forEach(b =>
-    b.classList.remove('selected')
-  );
-  btn.classList.add('selected');
-  state.user.mood = btn.dataset.mood;
-  autoSave();
-
-  const hints = {
-    great: 'Feeling powerful! Keep that energy going.',
-    good: 'Nice! You are on track.',
-    neutral: 'Steady. Let NOX help optimize your day.',
-    low: 'Tough day? We can adjust your schedule.',
-    bad: 'It\'s okay. Take it easy. Tomorrow is new.',
-  };
-  document.getElementById('mood-hint').textContent = hints[state.user.mood] || '';
+function selectMood(btn){
+  document.querySelectorAll('.mood-selector:not(.small) .mood-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');state.user.mood=btn.dataset.mood;autoSave();
+  const h={great:'Feeling powerful!',good:'Nice! On track.',neutral:'Steady.',low:'Tough day?',bad:'Take it easy.'};
+  document.getElementById('mood-hint').textContent=h[state.user.mood]||'';
 }
-
-function selectEntryMood(btn) {
-  btn.closest('.mood-selector').querySelectorAll('.mood-btn').forEach(b =>
-    b.classList.remove('selected')
-  );
-  btn.classList.add('selected');
-}
+function selectEntryMood(btn){btn.closest('.mood-selector').querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');}
 
 // ===== NAVIGATION =====
-function switchSection(section, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('sec-' + section).classList.add('active');
-  if (btn) btn.classList.add('active');
-  state.currentSection = section;
+function switchSection(s,btn){
+  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('sec-'+s).classList.add('active');
+  if(btn)btn.classList.add('active');state.currentSection=s;
 }
 
 // ===== SCHEDULE =====
-function switchScheduleView(view, btn) {
-  document.querySelectorAll('.btn-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  if (view === 'custom') generateAISchedule();
+function switchScheduleView(v,btn){document.querySelectorAll('.btn-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(v==='custom')generateAISchedule();}
+
+function generateAISchedule(){
+  document.querySelectorAll('.time-slot').forEach(s=>{s.className='time-slot empty';s.textContent='';});
+  const peak=state.user.energyPeak?parseInt(state.user.energyPeak.split(':')[0]):10;
+  document.querySelectorAll('.time-block').forEach(b=>{
+    const h=parseInt(b.dataset.hour),s=b.querySelector('.time-slot');
+    if(h===peak-1||h===peak){s.className='time-slot task-block work';s.textContent='🧠 Peak Deep Work';}
+    else if(h===12){s.className='time-slot task-block break';s.textContent='🍽️ Lunch';}
+    else if(h>=peak+3&&h<peak+5){s.className='time-slot task-block exercise';s.textContent='🏃 Exercise';}
+    else if(h>=18&&h<21){s.className='time-slot task-block evening';s.textContent='🎮 Free Time';}
+    else if(h===21){s.className='time-slot task-block wind';s.textContent='📖 Wind Down';}
+    else if(h>=22||h<6){s.className='time-slot task-block sleep';s.textContent='😴 Sleep';}
+  });autoSave();
 }
 
-function generateAISchedule() {
-  const slots = document.querySelectorAll('.time-slot');
-  slots.forEach(slot => { slot.className = 'time-slot empty'; slot.textContent = ''; });
+// ===== TASK COMPLETION (Schedule) =====
+function toggleTaskComplete(slot){
+  if(!slot.classList.contains('task-block'))return;
+  const b=slot.closest('.time-block'),h=b.dataset.hour;
+  const key=`task_${h}_${new Date().toDateString()}`;
+  if(slot.classList.contains('completed')){slot.classList.remove('completed');slot.style.opacity='';slot.style.textDecoration='';delete state.user.completedTasks[key];}
+  else{slot.classList.add('completed');slot.style.opacity='0.5';slot.style.textDecoration='line-through';state.user.completedTasks[key]=true;}
+  autoSave();updateDailyProgress();
+}
 
-  const peakHour = state.user.energyPeak ? parseInt(state.user.energyPeak.split(':')[0]) : 10;
-  const blocks = document.querySelectorAll('.time-block');
-
-  blocks.forEach(block => {
-    const hour = parseInt(block.dataset.hour);
-    const slot = block.querySelector('.time-slot');
-
-    if (hour === peakHour - 1 || hour === peakHour) {
-      slot.className = 'time-slot task-block work';
-      slot.textContent = '🧠 Peak Deep Work';
-    } else if (hour === 12) {
-      slot.className = 'time-slot task-block break';
-      slot.textContent = '🍽️ Lunch Break';
-    } else if (hour >= peakHour + 3 && hour < peakHour + 5) {
-      slot.className = 'time-slot task-block exercise';
-      slot.textContent = '🏃 Exercise';
-    } else if (hour >= 18 && hour < 21) {
-      slot.className = 'time-slot task-block evening';
-      slot.textContent = '🎮 Free Time';
-    } else if (hour === 21) {
-      slot.className = 'time-slot task-block wind';
-      slot.textContent = '📖 Wind Down';
-    } else if (hour >= 22 || hour < 6) {
-      slot.className = 'time-slot task-block sleep';
-      slot.textContent = '😴 Sleep';
+// ===== DASHBOARD TASK CLICK =====
+function setupDashboardTasks(){
+  document.addEventListener('click',(e)=>{
+    const item=e.target.closest('.task-item');
+    if(!item||item.closest('.context-menu'))return;
+    const status=item.querySelector('.task-status');
+    if(!status)return;
+    if(status.classList.contains('done')){
+      status.classList.remove('done');status.classList.add('pending');status.textContent='○';
+    }else{
+      status.classList.remove('pending','active');status.classList.add('done');status.textContent='✓';
     }
   });
-  autoSave();
 }
 
-// ===== TASK COMPLETION =====
-function toggleTaskComplete(slot) {
-  if (!slot.classList.contains('task-block')) return;
+function restoreCompletedTasks(){
+  const today=new Date().toDateString();
+  document.querySelectorAll('.time-slot.task-block').forEach(s=>{
+    const b=s.closest('.time-block'),key=`task_${b.dataset.hour}_${today}`;
+    if(state.user.completedTasks&&state.user.completedTasks[key]){s.classList.add('completed');s.style.opacity='0.5';s.style.textDecoration='line-through';}
+  });updateDailyProgress();
+}
 
-  const block = slot.closest('.time-block');
-  const hour = block.dataset.hour;
-  const key = `task_${hour}_${new Date().toDateString()}`;
+function updateDailyProgress(){
+  const total=document.querySelectorAll('.time-slot.task-block').length;
+  const done=document.querySelectorAll('.time-slot.task-block.completed').length;
+  updateProgressRing(total>0?Math.round((done/total)*100):0);
+}
 
-  if (slot.classList.contains('completed')) {
-    slot.classList.remove('completed');
-    slot.style.opacity = '';
-    slot.style.textDecoration = '';
-    delete state.user.completedTasks[key];
-  } else {
-    slot.classList.add('completed');
-    slot.style.opacity = '0.5';
-    slot.style.textDecoration = 'line-through';
-    state.user.completedTasks[key] = true;
+// ===== LONG PRESS =====
+function setupLongPress(){
+  let timer=null,target=null;
+
+  function onStart(el){
+    if(!el.closest('.time-slot.task-block'))return;
+    target=el.closest('.time-slot.task-block');
+    timer=setTimeout(()=>showTaskMenu(target),500);
   }
-  autoSave();
-  updateDailyProgress();
-}
 
-function restoreCompletedTasks() {
-  const today = new Date().toDateString();
-  document.querySelectorAll('.time-slot.task-block').forEach(slot => {
-    const block = slot.closest('.time-block');
-    const key = `task_${block.dataset.hour}_${today}`;
-    if (state.user.completedTasks && state.user.completedTasks[key]) {
-      slot.classList.add('completed');
-      slot.style.opacity = '0.5';
-      slot.style.textDecoration = 'line-through';
-    }
-  });
-  updateDailyProgress();
-}
+  function onEnd(){clearTimeout(timer);}
 
-function updateDailyProgress() {
-  const total = document.querySelectorAll('.time-slot.task-block').length;
-  const done = document.querySelectorAll('.time-slot.task-block.completed').length;
-  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-  updateProgressRing(pct);
-}
+  // Mouse
+  document.addEventListener('mousedown',e=>onStart(e.target));
+  document.addEventListener('mouseup',onEnd);
+  document.addEventListener('mouseleave',onEnd);
 
-// ===== LONG PRESS FOR TASK EDITING =====
-function setupLongPress() {
-  let pressTimer = null;
-  let pressTarget = null;
+  // Touch (mobile)
+  document.addEventListener('touchstart',e=>{
+    const el=e.target.closest('.time-slot.task-block');
+    if(!el)return;
+    target=el;
+    timer=setTimeout(()=>{showTaskMenu(target);},500);
+  },{passive:true});
+  document.addEventListener('touchend',onEnd);
+  document.addEventListener('touchmove',onEnd);
 
-  document.addEventListener('pointerdown', (e) => {
-    const slot = e.target.closest('.time-slot.task-block');
-    if (!slot) return;
-    pressTarget = slot;
-    pressTimer = setTimeout(() => {
-      showTaskContextMenu(slot);
-    }, 500);
-  });
-
-  document.addEventListener('pointerup', () => clearTimeout(pressTimer));
-  document.addEventListener('pointermove', () => clearTimeout(pressTimer));
-  document.addEventListener('pointercancel', () => clearTimeout(pressTimer));
-
-  document.addEventListener('click', (e) => {
-    const slot = e.target.closest('.time-slot.task-block');
-    if (slot && !slot.closest('.context-menu')) {
-      toggleTaskComplete(slot);
+  // Click for completion
+  document.addEventListener('click',e=>{
+    const slot=e.target.closest('.time-slot.task-block');
+    if(slot&&!slot.closest('.context-menu')&&timer){
+      // Only toggle if it wasn't a long press
+      clearTimeout(timer);
+      // short tap — toggle
     }
   });
 }
 
-function showTaskContextMenu(slot) {
-  const existing = document.querySelector('.context-menu');
-  if (existing) existing.remove();
-
-  const block = slot.closest('.time-block');
-  const hour = block.dataset.hour;
-  const taskName = slot.textContent;
-
-  const menu = document.createElement('div');
-  menu.className = 'context-menu';
-  menu.innerHTML = `
-    <div class="ctx-header">${taskName}</div>
-    <button class="ctx-item" onclick="editTask('${hour}')">
-      <span class="ctx-icon">✏️</span> ${t('edit')}
-    </button>
-    <button class="ctx-item" onclick="makeRecurring('${hour}')">
-      <span class="ctx-icon">🔄</span> ${t('makeRecurring')}
-    </button>
-    <button class="ctx-item danger" onclick="deleteTask('${hour}')">
-      <span class="ctx-icon">🗑️</span> ${t('delete')}
-    </button>
-  `;
-
-  const rect = slot.getBoundingClientRect();
-  menu.style.position = 'fixed';
-  menu.style.top = (rect.top + window.scrollY) + 'px';
-  menu.style.left = rect.left + 'px';
-  menu.style.zIndex = '500';
-  document.body.appendChild(menu);
-
-  setTimeout(() => {
-    document.addEventListener('click', function closeMenu(e) {
-      if (!menu.contains(e.target)) {
-        menu.remove();
-        document.removeEventListener('click', closeMenu);
-      }
-    });
-  }, 10);
-}
-
-function editTask(hour) {
+function showTaskMenu(slot){
   document.querySelector('.context-menu')?.remove();
-  const block = document.querySelector(`.time-block[data-hour="${hour}"]`);
-  const slot = block.querySelector('.time-slot');
-  const currentName = slot.textContent;
+  const b=slot.closest('.time-block'),h=b.dataset.hour,name=slot.textContent;
+  const m=document.createElement('div');
+  m.className='context-menu';
+  m.innerHTML=`<div class="ctx-header">${name}</div>
+    <button class="ctx-item" onclick="editTask('${h}')">${T('edit')}</button>
+    <button class="ctx-item" onclick="makeRecurring('${h}')">${T('recurring')}</button>
+    <button class="ctx-item danger" onclick="deleteTask('${h}')">${T('del')}</button>`;
+  const r=slot.getBoundingClientRect();
+  m.style.cssText=`position:fixed;top:${r.top+window.scrollY}px;left:${Math.min(r.left,window.innerWidth-200)}px;z-index:500;`;
+  document.body.appendChild(m);
+  setTimeout(()=>{document.addEventListener('click',function cm(e){if(!m.contains(e.target)){m.remove();document.removeEventListener('click',cm);}});},10);
+}
 
-  document.getElementById('modal-title').textContent = t('edit');
-  document.getElementById('modal-body').innerHTML = `
-    <div class="form-group">
-      <label>${t('title')}</label>
-      <input type="text" id="edit-task-name" value="${currentName}">
-    </div>
-    <div class="form-group">
-      <label>TIME</label>
-      <input type="time" id="edit-task-time" value="${String(hour).padStart(2,'0')}:00">
-    </div>
-    <button class="btn-primary" onclick="saveEditTask('${hour}')" style="width:100%">${t('save')}</button>
-  `;
+function editTask(hour){
+  document.querySelector('.context-menu')?.remove();
+  const b=document.querySelector(`.time-block[data-hour="${hour}"]`),s=b.querySelector('.time-slot'),cur=s.textContent;
+  document.getElementById('modal-title').textContent=T('edit');
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-group"><label>${T('title')}</label><input type="text" id="edit-task-name" value="${cur}"></div>
+    <div class="form-group"><label>TIME</label><input type="time" id="edit-task-time" value="${String(hour).padStart(2,'0')}:00"></div>
+    <button class="btn-primary" onclick="saveEditTask('${hour}')" style="width:100%">${T('save')}</button>`;
   document.getElementById('modal-overlay').classList.remove('hidden');
 }
 
-function saveEditTask(oldHour) {
-  const newName = document.getElementById('edit-task-name').value.trim();
-  const newTime = document.getElementById('edit-task-time').value;
-  if (!newName) return;
-
-  const oldBlock = document.querySelector(`.time-block[data-hour="${oldHour}"]`);
-  if (oldBlock) {
-    const oldSlot = oldBlock.querySelector('.time-slot');
-    oldSlot.className = 'time-slot empty';
-    oldSlot.textContent = '';
-    oldSlot.style.opacity = '';
-    oldSlot.style.textDecoration = '';
-  }
-
-  const newHour = parseInt(newTime.split(':')[0]);
-  const newBlock = document.querySelector(`.time-block[data-hour="${newHour}"]`);
-  if (newBlock) {
-    const newSlot = newBlock.querySelector('.time-slot');
-    const cat = getTaskCategory(newName);
-    newSlot.className = `time-slot task-block ${cat}`;
-    newSlot.textContent = newName;
-  }
-
-  closeModal();
-  autoSave();
+function saveEditTask(oldH){
+  const n=document.getElementById('edit-task-name').value.trim(),t=document.getElementById('edit-task-time').value;
+  if(!n)return;
+  const o=document.querySelector(`.time-block[data-hour="${oldH}"]`);
+  if(o){const s=o.querySelector('.time-slot');s.className='time-slot empty';s.textContent='';s.style.opacity='';s.style.textDecoration='';}
+  const newH=parseInt(t.split(':')[0]),nb=document.querySelector(`.time-block[data-hour="${newH}"]`);
+  if(nb){const ns=nb.querySelector('.time-slot');ns.className=`time-slot task-block ${getCat(n)}`;ns.textContent=n;}
+  closeModal();autoSave();
 }
 
-function getTaskCategory(name) {
-  const lower = name.toLowerCase();
-  if (lower.includes('work') || lower.includes('deep')) return 'work';
-  if (lower.includes('exercise') || lower.includes('run') || lower.includes('gym')) return 'exercise';
-  if (lower.includes('learn') || lower.includes('study') || lower.includes('read')) return 'learning';
-  if (lower.includes('lunch') || lower.includes('break') || lower.includes('food')) return 'break';
-  if (lower.includes('sleep') || lower.includes('bed')) return 'sleep';
-  if (lower.includes('wind') || lower.includes('relax')) return 'wind';
-  return 'work';
-}
+function getCat(n){const l=n.toLowerCase();if(l.match(/work|deep/))return'work';if(l.match(/exerc|run|gym/))return'exercise';if(l.match(/learn|study|read/))return'learning';if(l.match(/lunch|break|food/))return'break';if(l.match(/sleep|bed/))return'sleep';return'work';}
 
-function makeRecurring(hour) {
+function makeRecurring(hour){
   document.querySelector('.context-menu')?.remove();
-  const block = document.querySelector(`.time-block[data-hour="${hour}"]`);
-  const slot = block.querySelector('.time-slot');
-  const taskName = slot.textContent;
-
-  if (!state.user.recurringTasks) state.user.recurringTasks = [];
-  const exists = state.user.recurringTasks.find(r => r.hour == hour);
-  if (!exists) {
-    state.user.recurringTasks.push({ hour: parseInt(hour), name: taskName });
-    autoSave();
-    alert(`"${taskName}" is now recurring daily at ${String(hour).padStart(2,'0')}:00`);
-  } else {
-    alert(`"${taskName}" is already recurring.`);
-  }
+  const b=document.querySelector(`.time-block[data-hour="${hour}"]`),s=b.querySelector('.time-slot');
+  if(!state.user.recurringTasks)state.user.recurringTasks=[];
+  if(!state.user.recurringTasks.find(r=>r.hour==hour)){
+    state.user.recurringTasks.push({hour:parseInt(hour),name:s.textContent});
+    autoSave();alert(`"${s.textContent}" → recurring daily`);
+  }else alert('Already recurring.');
 }
 
-function deleteTask(hour) {
+function deleteTask(hour){
   document.querySelector('.context-menu')?.remove();
-  const block = document.querySelector(`.time-block[data-hour="${hour}"]`);
-  const slot = block.querySelector('.time-slot');
-  slot.className = 'time-slot empty';
-  slot.textContent = '';
-  slot.style.opacity = '';
-  slot.style.textDecoration = '';
-
-  const key = `task_${hour}_${new Date().toDateString()}`;
-  delete state.user.completedTasks[key];
-  autoSave();
-  updateDailyProgress();
+  const b=document.querySelector(`.time-block[data-hour="${hour}"]`),s=b.querySelector('.time-slot');
+  s.className='time-slot empty';s.textContent='';s.style.opacity='';s.style.textDecoration='';
+  delete state.user.completedTasks[`task_${hour}_${new Date().toDateString()}`];
+  autoSave();updateDailyProgress();
 }
 
 // ===== HABITS =====
-function toggleHabitCheck(btn) {
-  btn.classList.toggle('done');
-  autoSave();
-}
+function toggleHabitCheck(btn){btn.classList.toggle('done');autoSave();}
 
 // ===== JOURNAL =====
-function openNewEntry() {
-  document.getElementById('new-entry-form').classList.remove('hidden');
+function openNewEntry(){document.getElementById('new-entry-form').classList.remove('hidden');}
+function closeNewEntry(){document.getElementById('new-entry-form').classList.add('hidden');document.getElementById('entry-title').value='';document.getElementById('entry-body').value='';document.querySelectorAll('.journal-form .mood-btn').forEach(b=>b.classList.remove('selected'));}
+
+function saveEntry(){
+  const title=document.getElementById('entry-title').value.trim(),body=document.getElementById('entry-body').value.trim();
+  const m=document.querySelector('.journal-form .mood-btn.selected');
+  if(!title||!body)return;
+  const entry={title,body,mood:m?m.textContent:'😐',date:new Date(),tags:body.split(' ').filter(w=>w.length>5).slice(0,2)};
+  state.user.journal.unshift(entry);autoSave();renderJournalEntry(entry);closeNewEntry();
 }
 
-function closeNewEntry() {
-  document.getElementById('new-entry-form').classList.add('hidden');
-  document.getElementById('entry-title').value = '';
-  document.getElementById('entry-body').value = '';
-  document.querySelectorAll('.journal-form .mood-btn').forEach(b =>
-    b.classList.remove('selected')
-  );
-}
-
-function saveEntry() {
-  const title = document.getElementById('entry-title').value.trim();
-  const body = document.getElementById('entry-body').value.trim();
-  const selectedMood = document.querySelector('.journal-form .mood-btn.selected');
-
-  if (!title || !body) return;
-
-  const now = new Date();
-  const entry = {
-    title, body,
-    mood: selectedMood ? selectedMood.textContent : '😐',
-    date: now,
-    tags: body.split(' ').filter(w => w.length > 5).slice(0, 2),
-  };
-
-  state.user.journal.unshift(entry);
-  autoSave();
-  renderJournalEntry(entry);
-  closeNewEntry();
-}
-
-function renderJournalEntry(entry) {
-  const container = document.getElementById('journal-entries');
-  const now = entry.date;
-  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-
-  const div = document.createElement('div');
-  div.className = 'journal-entry';
-  div.innerHTML = `
-    <div class="entry-date">
-      <span class="entry-day">${now.getDate()}</span>
-      <span class="entry-month">${months[now.getMonth()]}</span>
-    </div>
-    <div class="entry-content">
-      <h4>${entry.title}</h4>
-      <p>${entry.body.substring(0, 150)}${entry.body.length > 150 ? '...' : ''}</p>
-      <div class="entry-tags">
-        ${entry.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-      </div>
-    </div>
-    <div class="entry-mood">${entry.mood}</div>
-  `;
-  container.prepend(div);
+function renderJournalEntry(entry){
+  const c=document.getElementById('journal-entries'),n=entry.date;
+  const months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const d=document.createElement('div');d.className='journal-entry';
+  d.innerHTML=`<div class="entry-date"><span class="entry-day">${n.getDate()}</span><span class="entry-month">${months[n.getMonth()]}</span></div><div class="entry-content"><h4>${entry.title}</h4><p>${entry.body.substring(0,150)}${entry.body.length>150?'...':''}</p><div class="entry-tags">${entry.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div><div class="entry-mood">${entry.mood}</div>`;
+  c.prepend(d);
 }
 
 // ===== QUICK NOTE =====
-function saveQuickNote() {
-  const note = document.getElementById('quick-note').value.trim();
-  if (!note) return;
-
-  state.user.notes.unshift({ text: note, time: new Date() });
-  autoSave();
-  document.getElementById('quick-note').value = '';
-
-  const btn = event.target;
-  btn.textContent = t('saved');
-  btn.style.borderColor = 'var(--neon-green)';
-  btn.style.color = 'var(--neon-green)';
-  setTimeout(() => {
-    btn.textContent = t('save');
-    btn.style.borderColor = '';
-    btn.style.color = '';
-  }, 1500);
+function saveQuickNote(){
+  const note=document.getElementById('quick-note').value.trim();if(!note)return;
+  state.user.notes.unshift({text:note,time:new Date()});autoSave();
+  document.getElementById('quick-note').value='';
+  const btn=event.target;btn.textContent=T('saved');btn.style.borderColor='var(--neon-green)';btn.style.color='var(--neon-green)';
+  setTimeout(()=>{btn.textContent=T('save');btn.style.borderColor='';btn.style.color='';},1500);
 }
 
-// ===== AI PANEL =====
-function toggleAIPanel() {
-  document.getElementById('ai-panel').classList.toggle('hidden');
-  document.getElementById('settings-panel').classList.add('hidden');
+// ===== AI =====
+function toggleAIPanel(){document.getElementById('ai-panel').classList.toggle('hidden');document.getElementById('settings-panel').classList.add('hidden');}
+
+function sendAI(){
+  const input=document.getElementById('ai-input'),msg=input.value.trim();if(!msg)return;
+  const mc=document.getElementById('ai-messages');
+  const ud=document.createElement('div');ud.className='ai-msg user';ud.textContent=msg;mc.appendChild(ud);input.value='';
+  setTimeout(()=>{const r=genAI(msg),ad=document.createElement('div');ad.className='ai-msg ai';ad.textContent=r;mc.appendChild(ad);mc.scrollTop=mc.scrollHeight;},800);
+  mc.scrollTop=mc.scrollHeight;
 }
 
-function sendAI() {
-  const input = document.getElementById('ai-input');
-  const msg = input.value.trim();
-  if (!msg) return;
-
-  const mc = document.getElementById('ai-messages');
-
-  const userDiv = document.createElement('div');
-  userDiv.className = 'ai-msg user';
-  userDiv.textContent = msg;
-  mc.appendChild(userDiv);
-
-  input.value = '';
-
-  setTimeout(() => {
-    const response = generateAIResponse(msg);
-    const aiDiv = document.createElement('div');
-    aiDiv.className = 'ai-msg ai';
-    aiDiv.textContent = response;
-    mc.appendChild(aiDiv);
-    mc.scrollTop = mc.scrollHeight;
-  }, 800);
-
-  mc.scrollTop = mc.scrollHeight;
-}
-
-function generateAIResponse(msg) {
-  const lower = msg.toLowerCase();
-
-  if (lower.includes('schedule') || lower.includes('расписан')) {
-    return `Based on your energy peak at ${state.user.energyPeak || '10:00'}, I recommend scheduling your most demanding tasks between 9-12. Your afternoon slot (14-16) would be ideal for physical activities.`;
-  }
-  if (lower.includes('habit') || lower.includes('привыч')) {
-    return `I've noticed you've been consistent with 2 out of 4 tracked habits this week. Water intake could use improvement — try setting hourly reminders.`;
-  }
-  if (lower.includes('mood') || lower.includes('настроен')) {
-    return `Your mood patterns show you tend to feel best in mornings and dip around 3-4 PM. I suggest scheduling a short break or walk during that window.`;
-  }
-
-  return `Thanks for your input, ${state.user.name || 'friend'}. I'm analyzing your data to provide better recommendations. Try asking about your schedule, habits, or mood patterns.`;
+function genAI(m){
+  const l=m.toLowerCase();
+  if(l.match(/schedule|расписан/))return`Based on your energy peak at ${state.user.energyPeak||'10:00'}, I recommend scheduling demanding tasks between 9-12.`;
+  if(l.match(/habit|привыч/))return`You've been consistent with 2 of 4 tracked habits this week. Try setting hourly reminders for water.`;
+  if(l.match(/mood|настроен/))return`Your mood dips around 3-4 PM. I suggest a short break during that window.`;
+  return`Thanks for your input, ${state.user.name||'friend'}. Ask about schedule, habits, or mood for insights.`;
 }
 
 // ===== SETTINGS =====
-function toggleSettings() {
-  document.getElementById('settings-panel').classList.toggle('hidden');
-  document.getElementById('ai-panel').classList.add('hidden');
-}
-
-function resetData() {
-  if (confirm('This will delete all your NOX data. Are you sure?')) {
-    localStorage.clear();
-    location.reload();
-  }
-}
+function toggleSettings(){document.getElementById('settings-panel').classList.toggle('hidden');document.getElementById('ai-panel').classList.add('hidden');}
+function resetData(){if(confirm('Delete all NOX data?')){localStorage.clear();location.reload();}}
 
 // ===== MODAL =====
-function openAddTask() {
-  document.getElementById('modal-title').textContent = t('addTask');
-  document.getElementById('modal-body').innerHTML = `
-    <div class="form-group">
-      <label>${t('title')}</label>
-      <input type="text" id="new-task-name" placeholder="What needs to be done?">
-    </div>
-    <div class="form-group">
-      <label>TIME</label>
-      <input type="time" id="new-task-time" value="09:00">
-    </div>
-    <div class="form-group">
-      <label>CATEGORY</label>
-      <select id="new-task-cat">
-        <option value="work">Work</option>
-        <option value="exercise">Exercise</option>
-        <option value="learning">Learning</option>
-        <option value="break">Break</option>
-        <option value="evening">Free Time</option>
-      </select>
-    </div>
-    <button class="btn-primary" onclick="addTask()" style="width:100%">${t('add')}</button>
-  `;
+function openAddTask(){
+  document.getElementById('modal-title').textContent=T('addTask');
+  document.getElementById('modal-body').innerHTML=`<div class="form-group"><label>${T('title')}</label><input type="text" id="new-task-name"></div><div class="form-group"><label>TIME</label><input type="time" id="new-task-time" value="09:00"></div><div class="form-group"><label>CATEGORY</label><select id="new-task-cat"><option value="work">Work</option><option value="exercise">Exercise</option><option value="learning">Learning</option><option value="break">Break</option><option value="evening">Free Time</option></select></div><button class="btn-primary" onclick="addTask()" style="width:100%">${T('addBtn')}</button>`;
   document.getElementById('modal-overlay').classList.remove('hidden');
 }
 
-function openAddHabit() {
-  document.getElementById('modal-title').textContent = t('newHabit');
-  document.getElementById('modal-body').innerHTML = `
-    <div class="form-group">
-      <label>HABIT NAME</label>
-      <input type="text" id="new-habit-name" placeholder="What do you want to track?">
-    </div>
-    <div class="form-group">
-      <label>ICON (emoji)</label>
-      <input type="text" id="new-habit-icon" placeholder="🏋️" maxlength="2">
-    </div>
-    <button class="btn-primary" onclick="addHabit()" style="width:100%">${t('add')}</button>
-  `;
+function openAddHabit(){
+  document.getElementById('modal-title').textContent=T('addHabitTitle');
+  document.getElementById('modal-body').innerHTML=`<div class="form-group"><label>${T('habitName')}</label><input type="text" id="new-habit-name"></div><div class="form-group"><label>${T('habitIcon')}</label><input type="text" id="new-habit-icon" value="⭐" maxlength="2"></div><button class="btn-primary" onclick="addHabit()" style="width:100%">${T('addBtn')}</button>`;
   document.getElementById('modal-overlay').classList.remove('hidden');
 }
 
-function addTask() {
-  const name = document.getElementById('new-task-name').value.trim();
-  const time = document.getElementById('new-task-time').value;
-  const cat = document.getElementById('new-task-cat').value;
-  if (!name) { shakeElement(document.getElementById('new-task-name')); return; }
-
-  const hour = parseInt(time.split(':')[0]);
-  const block = document.querySelector(`.time-block[data-hour="${hour}"]`);
-  if (block) {
-    const slot = block.querySelector('.time-slot');
-    slot.className = `time-slot task-block ${cat}`;
-    slot.textContent = name;
-  }
-  closeModal();
-  autoSave();
+function addTask(){
+  const n=document.getElementById('new-task-name').value.trim(),t=document.getElementById('new-task-time').value,c=document.getElementById('new-task-cat').value;
+  if(!n){shakeElement(document.getElementById('new-task-name'));return;}
+  const h=parseInt(t.split(':')[0]),b=document.querySelector(`.time-block[data-hour="${h}"]`);
+  if(b){const s=b.querySelector('.time-slot');s.className=`time-slot task-block ${c}`;s.textContent=n;}
+  closeModal();autoSave();
 }
 
-function addHabit() {
-  const name = document.getElementById('new-habit-name').value.trim();
-  const icon = document.getElementById('new-habit-icon').value.trim() || '⭐';
-  if (!name) { shakeElement(document.getElementById('new-habit-name')); return; }
-
-  const grid = document.getElementById('habits-grid');
-  const card = document.createElement('div');
-  card.className = 'habit-card';
-  card.innerHTML = `
-    <div class="habit-icon">${icon}</div>
-    <div class="habit-info">
-      <h4>${name}</h4>
-      <div class="habit-progress">
-        <div class="habit-bar"><div class="habit-bar-fill" style="width:0%"></div></div>
-        <span>Not started</span>
-      </div>
-    </div>
-    <button class="habit-check" onclick="toggleHabitCheck(this)">✓</button>
-  `;
-  grid.appendChild(card);
-  closeModal();
-  autoSave();
+function addHabit(){
+  const n=document.getElementById('new-habit-name').value.trim(),icon=document.getElementById('new-habit-icon').value.trim()||'⭐';
+  if(!n){shakeElement(document.getElementById('new-habit-name'));return;}
+  const g=document.getElementById('habits-grid'),card=document.createElement('div');card.className='habit-card';
+  card.innerHTML=`<div class="habit-icon">${icon}</div><div class="habit-info"><h4>${n}</h4><div class="habit-progress"><div class="habit-bar"><div class="habit-bar-fill" style="width:0%"></div></div><span>0%</span></div></div><button class="habit-check" onclick="toggleHabitCheck(this)">✓</button>`;
+  g.appendChild(card);closeModal();autoSave();
 }
 
-function closeModal() {
-  document.getElementById('modal-overlay').classList.add('hidden');
-}
+function closeModal(){document.getElementById('modal-overlay').classList.add('hidden');}
 
 // ===== SOCIAL =====
-function toggleLike(btn) {
-  btn.classList.toggle('liked');
-  const text = btn.textContent;
-  const num = parseInt(text.match(/\d+/)[0]);
-  if (btn.classList.contains('liked')) {
-    btn.textContent = `♥ ${num + 1}`;
-  } else {
-    btn.textContent = `♡ ${num - 1}`;
-  }
-}
+function toggleLike(btn){btn.classList.toggle('liked');const t=btn.textContent,n=parseInt(t.match(/\d+/)[0]);btn.textContent=btn.classList.contains('liked')?`♥ ${n+1}`:`♡ ${n-1}`;}
 
-// ===== STYLE =====
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-8px); }
-    50% { transform: translateX(8px); }
-    75% { transform: translateX(-4px); }
-  }
-  .context-menu {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px;
-    min-width: 180px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  }
-  .ctx-header {
-    padding: 8px 12px;
-    font-weight: 600;
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 4px;
-    color: var(--neon-cyan);
-  }
-  .ctx-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    padding: 10px 12px;
-    background: none;
-    border: none;
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s;
-  }
-  .ctx-item:hover { background: var(--bg-card); }
-  .ctx-item.danger { color: var(--neon-pink); }
-  .time-slot.task-block { cursor: pointer; transition: all 0.3s; }
-  .time-slot.task-block:active { transform: scale(0.98); }
-  .time-slot.task-block.completed { opacity: 0.5; text-decoration: line-through; }
-  .lang-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 32px; }
-  .lang-card {
-    display: flex; align-items: center; gap: 12px;
-    padding: 16px; background: var(--bg-secondary); border: 1px solid var(--border);
-    border-radius: 8px; cursor: pointer; transition: all 0.3s;
-    color: var(--text-primary); font-family: var(--font-body);
-  }
-  .lang-card:hover { border-color: var(--neon-purple); }
-  .lang-card.active { border-color: var(--neon-cyan); background: rgba(5, 217, 232, 0.08);
-    box-shadow: 0 0 15px rgba(5, 217, 232, 0.15); }
-  .lang-flag { font-size: 28px; }
-  .lang-name { font-size: 16px; font-weight: 500; }
+// ===== EXTRAS =====
+const style=document.createElement('style');
+style.textContent=`
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
+.context-menu{background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;padding:8px;min-width:180px;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+.ctx-header{padding:8px 12px;font-weight:600;font-size:13px;border-bottom:1px solid var(--border);margin-bottom:4px;color:var(--neon-cyan)}
+.ctx-item{display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;background:none;border:none;color:var(--text-primary);font-family:var(--font-body);font-size:14px;cursor:pointer;border-radius:4px;transition:background 0.2s}
+.ctx-item:hover{background:var(--bg-card)}.ctx-item.danger{color:var(--neon-pink)}
+.time-slot.task-block{cursor:pointer;transition:all 0.3s}.time-slot.task-block:active{transform:scale(0.98)}
+.time-slot.task-block.completed{opacity:0.5!important;text-decoration:line-through!important}
+.task-item{cursor:pointer;transition:all 0.2s}.task-item:active{transform:scale(0.98)}
+.lang-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:32px}
+.lang-card{display:flex;align-items:center;gap:12px;padding:16px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.3s;color:var(--text-primary);font-family:var(--font-body)}
+.lang-card:hover{border-color:var(--neon-purple)}.lang-card.active{border-color:var(--neon-cyan);background:rgba(5,217,232,0.08);box-shadow:0 0 15px rgba(5,217,232,0.15)}
+.lang-flag{font-size:28px}.lang-name{font-size:16px;font-weight:500}
 `;
 document.head.appendChild(style);
