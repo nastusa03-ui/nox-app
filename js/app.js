@@ -221,6 +221,19 @@ function showApp(){
   document.getElementById('greeting-name').textContent=state.user.name||'User';
   document.getElementById('avatar-letter').textContent=(state.user.name||'N')[0].toUpperCase();
   applyTranslations();
+  // Update nav labels
+  const navLabels=document.querySelectorAll('.nav-label');
+  const navKeys=['dashboard','schedule','habits_nav','journal','games','social','chain'];
+  navLabels.forEach((el,i)=>{if(navKeys[i])el.textContent=T(navKeys[i]);});
+  // Update static elements
+  const setT=(id,key)=>{const el=document.getElementById(id);if(el)el.textContent=T(key);};
+  setT('sec-dashboard-h3','progress');setT('sec-next-up','nextUp');
+  setT('sec-mood-title','moodTitle');setT('mood-hint','moodHint');
+  setT('sec-streak','streak');setT('sec-quick-note','quickNote');
+  setT('sec-schedule-h2','schedule');setT('sec-habits-h2','habits_nav');
+  setT('sec-journal-h2','journal');setT('sec-games-h2','games');
+  setT('sec-social-h2','social');setT('sec-chain-h2','chain');
+  setT('sec-settings-h3','settings');
   updateGreeting();updateProgressRing(65);updateStreak(state.user.streak);
   document.getElementById('greeting-quote').textContent=getQuote();
   restoreCompletedTasks();

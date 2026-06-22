@@ -1915,15 +1915,15 @@ body {
             <span class="lang-name">Українська</span>
           </button>
         </div>
-        <button class="btn-next" onclick="nextStep()">CONTINUE →</button>
+        <button class="btn-next" onclick="nextStep()" data-i18n="continue">CONTINUE →</button>
       </div>
 
       <!-- Step 1: Basics -->
       <div class="onboard-step" data-step="1">
-        <h2><span class="step-num">02</span>WHO ARE YOU?</h2>
-        <p class="step-desc">Tell us about yourself. We'll shape NOX around you.</p>
+        <h2><span class="step-num">02</span><span data-i18n="whoAreYou">WHO ARE YOU?</span></h2>
+        <p class="step-desc" data-i18n="tellAbout">Tell us about yourself. We'll shape NOX around you.</p>
         <div class="form-group">
-          <label>YOUR NAME</label>
+          <label data-i18n="yourName">YOUR NAME</label>
           <input type="text" id="user-name" placeholder="Enter your name" autocomplete="off">
           <div class="input-line"></div>
         </div>

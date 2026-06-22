@@ -1915,15 +1915,15 @@ body {
             <span class="lang-name">Українська</span>
           </button>
         </div>
-        <button class="btn-next" onclick="nextStep()">CONTINUE →</button>
+        <button class="btn-next" onclick="nextStep()" data-i18n="continue">CONTINUE →</button>
       </div>
 
       <!-- Step 1: Basics -->
       <div class="onboard-step" data-step="1">
-        <h2><span class="step-num">02</span>WHO ARE YOU?</h2>
-        <p class="step-desc">Tell us about yourself. We'll shape NOX around you.</p>
+        <h2><span class="step-num">02</span><span data-i18n="whoAreYou">WHO ARE YOU?</span></h2>
+        <p class="step-desc" data-i18n="tellAbout">Tell us about yourself. We'll shape NOX around you.</p>
         <div class="form-group">
-          <label>YOUR NAME</label>
+          <label data-i18n="yourName">YOUR NAME</label>
           <input type="text" id="user-name" placeholder="Enter your name" autocomplete="off">
           <div class="input-line"></div>
         </div>
@@ -3804,6 +3804,19 @@ function showApp(){
   document.getElementById('greeting-name').textContent=state.user.name||'User';
   document.getElementById('avatar-letter').textContent=(state.user.name||'N')[0].toUpperCase();
   applyTranslations();
+  // Update nav labels
+  const navLabels=document.querySelectorAll('.nav-label');
+  const navKeys=['dashboard','schedule','habits_nav','journal','games','social','chain'];
+  navLabels.forEach((el,i)=>{if(navKeys[i])el.textContent=T(navKeys[i]);});
+  // Update static elements
+  const setT=(id,key)=>{const el=document.getElementById(id);if(el)el.textContent=T(key);};
+  setT('sec-dashboard-h3','progress');setT('sec-next-up','nextUp');
+  setT('sec-mood-title','moodTitle');setT('mood-hint','moodHint');
+  setT('sec-streak','streak');setT('sec-quick-note','quickNote');
+  setT('sec-schedule-h2','schedule');setT('sec-habits-h2','habits_nav');
+  setT('sec-journal-h2','journal');setT('sec-games-h2','games');
+  setT('sec-social-h2','social');setT('sec-chain-h2','chain');
+  setT('sec-settings-h3','settings');
   updateGreeting();updateProgressRing(65);updateStreak(state.user.streak);
   document.getElementById('greeting-quote').textContent=getQuote();
   restoreCompletedTasks();
