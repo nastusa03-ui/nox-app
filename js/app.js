@@ -474,7 +474,30 @@ function genAI(m){
 }
 
 // ===== SETTINGS =====
-function toggleSettings(){document.getElementById('settings-panel').classList.toggle('hidden');document.getElementById('ai-panel').classList.add('hidden');}
+function toggleSettings(){
+  document.getElementById('settings-panel').classList.toggle('hidden');
+  document.getElementById('ai-panel').classList.add('hidden');
+  // Sync lang buttons with current lang
+  if(!document.getElementById('settings-panel').classList.contains('hidden')){
+    document.querySelectorAll('.settings-lang-btn').forEach(b=>{
+      b.classList.toggle('active', b.dataset.lang === state.user.lang);
+    });
+  }
+}
+
+function changeLang(lang, btn){
+  state.user.lang = lang;
+  document.querySelectorAll('.settings-lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  autoSave();
+  // Re-apply all translations live
+  applyTranslations();
+  const navLabels = document.querySelectorAll('.nav-label');
+  const navKeys = ['dashboard','schedule','habits_nav','journal','games','social','chain'];
+  navLabels.forEach((el,i) => { if(navKeys[i]) el.textContent = T(navKeys[i]); });
+  updateGreeting();
+}
+
 function resetData(){if(confirm('Delete all NOX data?')){localStorage.clear();location.reload();}}
 
 // ===== MODAL =====
@@ -526,5 +549,9 @@ style.textContent=`
 .lang-card{display:flex;align-items:center;gap:12px;padding:16px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.3s;color:var(--text-primary);font-family:var(--font-body)}
 .lang-card:hover{border-color:var(--neon-purple)}.lang-card.active{border-color:var(--neon-cyan);background:rgba(5,217,232,0.08);box-shadow:0 0 15px rgba(5,217,232,0.15)}
 .lang-flag{font-size:28px}.lang-name{font-size:16px;font-weight:500}
+.settings-lang-row{display:flex;gap:6px}
+.settings-lang-btn{padding:6px 10px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary);border-radius:4px;cursor:pointer;font-family:var(--font-mono);font-size:11px;letter-spacing:1px;transition:all 0.3s}
+.settings-lang-btn.active{border-color:var(--neon-cyan);color:var(--neon-cyan);background:rgba(5,217,232,0.08)}
+.settings-lang-btn:hover{border-color:var(--neon-purple)}
 `;
 document.head.appendChild(style);
