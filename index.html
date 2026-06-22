@@ -2109,31 +2109,31 @@ body {
     <nav class="nav-bar">
       <button class="nav-item active" data-section="dashboard" onclick="switchSection('dashboard', this)">
         <span class="nav-icon">◈</span>
-        <span class="nav-label">Dashboard</span>
+        <span class="nav-label" id="nav-dashboard">Dashboard</span>
       </button>
       <button class="nav-item" data-section="schedule" onclick="switchSection('schedule', this)">
         <span class="nav-icon">◎</span>
-        <span class="nav-label">Schedule</span>
+        <span class="nav-label" id="nav-schedule">Schedule</span>
       </button>
       <button class="nav-item" data-section="habits" onclick="switchSection('habits', this)">
         <span class="nav-icon">◉</span>
-        <span class="nav-label">Habits</span>
+        <span class="nav-label" id="nav-habits">Habits</span>
       </button>
       <button class="nav-item" data-section="journal" onclick="switchSection('journal', this)">
         <span class="nav-icon">◇</span>
-        <span class="nav-label">Journal</span>
+        <span class="nav-label" id="nav-journal">Journal</span>
       </button>
       <button class="nav-item" data-section="games" onclick="switchSection('games', this)">
         <span class="nav-icon">◆</span>
-        <span class="nav-label">Games</span>
+        <span class="nav-label" id="nav-games">Games</span>
       </button>
       <button class="nav-item" data-section="social" onclick="switchSection('social', this)">
         <span class="nav-icon">◈</span>
-        <span class="nav-label">Social</span>
+        <span class="nav-label" id="nav-social">Social</span>
       </button>
       <button class="nav-item" data-section="blockchain" onclick="switchSection('blockchain', this)">
         <span class="nav-icon">⬡</span>
-        <span class="nav-label">Chain</span>
+        <span class="nav-label" id="nav-chain">Chain</span>
       </button>
     </nav>
 
@@ -2154,7 +2154,7 @@ body {
 
           <!-- Daily Progress -->
           <div class="card card-progress">
-            <h3>TODAY'S PROGRESS</h3>
+            <h3 id="h-progress">TODAY'S PROGRESS</h3>
             <div class="progress-ring-container">
               <svg class="progress-ring" viewBox="0 0 120 120">
                 <circle class="progress-ring-bg" cx="60" cy="60" r="54"/>
@@ -2173,7 +2173,7 @@ body {
 
           <!-- Quick Schedule -->
           <div class="card card-schedule-mini">
-            <h3>NEXT UP</h3>
+            <h3 id="h-nextup">NEXT UP</h3>
             <div id="next-tasks" class="task-list">
               <div class="task-item">
                 <span class="task-time">09:00</span>
@@ -2201,7 +2201,7 @@ body {
 
           <!-- Mood Tracker -->
           <div class="card card-mood">
-            <h3>HOW ARE YOU FEELING?</h3>
+            <h3 id="h-mood">HOW ARE YOU FEELING?</h3>
             <div class="mood-selector">
               <button class="mood-btn" data-mood="great" onclick="selectMood(this)">🔥</button>
               <button class="mood-btn" data-mood="good" onclick="selectMood(this)">😊</button>
@@ -2215,13 +2215,13 @@ body {
           <!-- Streak -->
           <div class="card card-streak">
             <div class="streak-number" id="streak-count">0</div>
-            <div class="streak-label">DAY STREAK</div>
+            <div class="streak-label" id="h-streak">DAY STREAK</div>
             <div class="streak-flames" id="streak-flames"></div>
           </div>
 
           <!-- Quick Notes -->
           <div class="card card-quick-note">
-            <h3>QUICK NOTE</h3>
+            <h3 id="h-quicknote">QUICK NOTE</h3>
             <textarea id="quick-note" rows="3" placeholder="Jot something down..."></textarea>
             <button class="btn-small" onclick="saveQuickNote()">SAVE</button>
           </div>
@@ -2231,12 +2231,19 @@ body {
       <!-- ===== SCHEDULE ===== -->
       <section id="sec-schedule" class="section">
         <div class="section-header">
-          <h2>SCHEDULE</h2>
+          <h2 id="h-schedule">SCHEDULE</h2>
           <div class="schedule-controls">
             <button class="btn-tab active" data-view="day" onclick="switchScheduleView('day', this)">Day</button>
             <button class="btn-tab" data-view="week" onclick="switchScheduleView('week', this)">Week</button>
             <button class="btn-tab" data-view="custom" onclick="switchScheduleView('custom', this)">AI Auto</button>
           </div>
+        </div>
+        <!-- Calendar -->
+        <div class="cal-nav" id="cal-nav">
+          <button class="cal-btn" id="cal-prev">←</button>
+          <div class="cal-label" id="cal-label">TODAY</div>
+          <button class="cal-btn cal-today" id="cal-today">•</button>
+          <button class="cal-btn" id="cal-next">→</button>
         </div>
         <div class="schedule-timeline" id="schedule-timeline">
           <div class="time-block" data-hour="6">
@@ -2249,7 +2256,7 @@ body {
           </div>
           <div class="time-block" data-hour="8">
             <span class="time-label">08:00</span>
-            <div class="time-slot task-block morning">Morning Routine</div>
+            <div class="time-slot task-block morning" id="t-morning">Morning Routine</div>
           </div>
           <div class="time-block" data-hour="9">
             <span class="time-label">09:00</span>
@@ -2257,15 +2264,15 @@ body {
           </div>
           <div class="time-block" data-hour="10">
             <span class="time-label">10:00</span>
-            <div class="time-slot task-block work">Deep Work</div>
+            <div class="time-slot task-block work" id="t-deepwork">Deep Work</div>
           </div>
           <div class="time-block" data-hour="11">
             <span class="time-label">11:00</span>
-            <div class="time-slot task-block work">Deep Work</div>
+            <div class="time-slot task-block work" id="t-deepwork2">Deep Work</div>
           </div>
           <div class="time-block" data-hour="12">
             <span class="time-label">12:00</span>
-            <div class="time-slot task-block break">Lunch</div>
+            <div class="time-slot task-block break" id="t-lunch">Lunch</div>
           </div>
           <div class="time-block" data-hour="13">
             <span class="time-label">13:00</span>
@@ -2273,11 +2280,11 @@ body {
           </div>
           <div class="time-block" data-hour="14">
             <span class="time-label">14:00</span>
-            <div class="time-slot task-block exercise">Exercise</div>
+            <div class="time-slot task-block exercise" id="t-exercise">Exercise</div>
           </div>
           <div class="time-block" data-hour="15">
             <span class="time-label">15:00</span>
-            <div class="time-slot task-block exercise">Exercise</div>
+            <div class="time-slot task-block exercise" id="t-exercise2">Exercise</div>
           </div>
           <div class="time-block" data-hour="16">
             <span class="time-label">16:00</span>
@@ -2285,46 +2292,46 @@ body {
           </div>
           <div class="time-block" data-hour="17">
             <span class="time-label">17:00</span>
-            <div class="time-slot task-block learning">Learning</div>
+            <div class="time-slot task-block learning" id="t-learning">Learning</div>
           </div>
           <div class="time-block" data-hour="18">
             <span class="time-label">18:00</span>
-            <div class="time-slot task-block learning">Learning</div>
+            <div class="time-slot task-block learning" id="t-learning2">Learning</div>
           </div>
           <div class="time-block" data-hour="19">
             <span class="time-label">19:00</span>
-            <div class="time-slot task-block evening">Free Time</div>
+            <div class="time-slot task-block evening" id="t-free">Free Time</div>
           </div>
           <div class="time-block" data-hour="20">
             <span class="time-label">20:00</span>
-            <div class="time-slot task-block evening">Free Time</div>
+            <div class="time-slot task-block evening" id="t-free2">Free Time</div>
           </div>
           <div class="time-block" data-hour="21">
             <span class="time-label">21:00</span>
-            <div class="time-slot task-block wind">Wind Down</div>
+            <div class="time-slot task-block wind" id="t-wind">Wind Down</div>
           </div>
           <div class="time-block" data-hour="22">
             <span class="time-label">22:00</span>
-            <div class="time-slot task-block sleep">Sleep</div>
+            <div class="time-slot task-block sleep" id="t-sleep">Sleep</div>
           </div>
         </div>
-        <button class="btn-primary add-task-btn" onclick="openAddTask()">+ ADD TASK</button>
+        <button class="btn-small" id="btn-add-task" onclick="openAddTask()">+ ADD TASK</button>
       </section>
 
       <!-- ===== HABITS ===== -->
       <section id="sec-habits" class="section">
         <div class="section-header">
-          <h2>HABITS</h2>
-          <button class="btn-primary" onclick="openAddHabit()">+ NEW HABIT</button>
+          <h2 id="h-habits">HABITS</h2>
+          <button class="btn-primary" id="btn-add-habit" onclick="openAddHabit()">+ NEW HABIT</button>
         </div>
         <div class="habits-grid" id="habits-grid">
           <div class="habit-card" data-habit="water">
             <div class="habit-icon">💧</div>
             <div class="habit-info">
-              <h4>Drink Water</h4>
+              <h4 id="habit-water">Drink Water</h4>
               <div class="habit-progress">
                 <div class="habit-bar"><div class="habit-bar-fill" style="width:60%"></div></div>
-                <span>3/5 glasses</span>
+                <span id="habit-water-prog">3/5 glasses</span>
               </div>
             </div>
             <button class="habit-check" onclick="toggleHabitCheck(this)">✓</button>
@@ -2332,10 +2339,10 @@ body {
           <div class="habit-card" data-habit="exercise">
             <div class="habit-icon">🏃</div>
             <div class="habit-info">
-              <h4>Morning Run</h4>
+              <h4 id="habit-run">Morning Run</h4>
               <div class="habit-progress">
                 <div class="habit-bar"><div class="habit-bar-fill" style="width:100%"></div></div>
-                <span>Done</span>
+                <span id="habit-run-prog">Done</span>
               </div>
             </div>
             <button class="habit-check done" onclick="toggleHabitCheck(this)">✓</button>
@@ -2343,10 +2350,10 @@ body {
           <div class="habit-card" data-habit="read">
             <div class="habit-icon">📖</div>
             <div class="habit-info">
-              <h4>Read 30 min</h4>
+              <h4 id="habit-read">Read 30 min</h4>
               <div class="habit-progress">
                 <div class="habit-bar"><div class="habit-bar-fill" style="width:0%"></div></div>
-                <span>Not started</span>
+                <span id="habit-read-prog">Not started</span>
               </div>
             </div>
             <button class="habit-check" onclick="toggleHabitCheck(this)">✓</button>
@@ -2354,7 +2361,7 @@ body {
           <div class="habit-card" data-habit="meditate">
             <div class="habit-icon">🧘</div>
             <div class="habit-info">
-              <h4>Meditate</h4>
+              <h4 id="habit-meditate">Meditate</h4>
               <div class="habit-progress">
                 <div class="habit-bar"><div class="habit-bar-fill" style="width:0%"></div></div>
                 <span>Not started</span>
@@ -2364,7 +2371,7 @@ body {
           </div>
         </div>
         <div class="habit-stats">
-          <h3>WEEKLY OVERVIEW</h3>
+          <h3 id="h-week-ov">WEEKLY OVERVIEW</h3>
           <div class="week-chart" id="week-chart">
             <div class="day-col"><span class="day-label">M</span><div class="day-bar" style="height:80%"></div></div>
             <div class="day-col"><span class="day-label">T</span><div class="day-bar" style="height:100%"></div></div>
@@ -2380,8 +2387,8 @@ body {
       <!-- ===== JOURNAL ===== -->
       <section id="sec-journal" class="section">
         <div class="section-header">
-          <h2>JOURNAL</h2>
-          <button class="btn-primary" onclick="openNewEntry()">+ NEW ENTRY</button>
+          <h2 id="h-journal">JOURNAL</h2>
+          <button class="btn-primary" id="btn-new-entry" onclick="openNewEntry()">+ NEW ENTRY</button>
         </div>
         <div class="journal-entries" id="journal-entries">
           <div class="journal-entry">
@@ -2429,7 +2436,7 @@ body {
       <!-- ===== GAMES ===== -->
       <section id="sec-games" class="section">
         <div class="section-header">
-          <h2>MINI GAMES</h2>
+          <h2 id="h-games">MINI GAMES</h2>
         </div>
         <div class="games-grid">
           <div class="game-card" onclick="launchGame('memory')">
@@ -2439,29 +2446,29 @@ body {
               <div class="mem-card">?</div>
               <div class="mem-card">?</div>
             </div>
-            <h4>Memory Chain</h4>
-            <p>Train your memory</p>
+            <h4 id="game-mem-title">Memory Chain</h4>
+            <p id="game-mem-desc">Train your memory</p>
           </div>
           <div class="game-card" onclick="launchGame('reaction')">
             <div class="game-preview reaction-preview">
               <div class="reaction-target">●</div>
             </div>
-            <h4>Reaction Speed</h4>
-            <p>Test your reflexes</p>
+            <h4 id="game-react-title">Reaction Speed</h4>
+            <p id="game-react-desc">Test your reflexes</p>
           </div>
           <div class="game-card" onclick="launchGame('focus')">
             <div class="game-preview focus-preview">
               <div class="focus-circle"></div>
             </div>
-            <h4>Focus Zone</h4>
-            <p>Deep concentration</p>
+            <h4 id="game-focus-title">Focus Zone</h4>
+            <p id="game-focus-desc">Deep concentration</p>
           </div>
           <div class="game-card" onclick="launchGame('typist')">
             <div class="game-preview typist-preview">
               <span class="typist-cursor">_</span>
             </div>
-            <h4>Shadow Typist</h4>
-            <p>Type to survive</p>
+            <h4 id="game-type-title">Shadow Typist</h4>
+            <p id="game-type-desc">Type to survive</p>
           </div>
         </div>
         <!-- Game Canvas -->
@@ -2480,7 +2487,7 @@ body {
       <!-- ===== SOCIAL ===== -->
       <section id="sec-social" class="section">
         <div class="section-header">
-          <h2>SOCIAL</h2>
+          <h2 id="h-social">SOCIAL</h2>
         </div>
         <div class="social-feed">
           <div class="social-card">
@@ -2517,7 +2524,7 @@ body {
       <!-- ===== BLOCKCHAIN ===== -->
       <section id="sec-blockchain" class="section">
         <div class="section-header">
-          <h2>ACKI NACKI CHAIN</h2>
+          <h2 id="h-chain">ACKI NACKI CHAIN</h2>
         </div>
         <div class="blockchain-placeholder">
           <div class="chain-visual">
@@ -2529,20 +2536,20 @@ body {
             <div class="chain-link">—</div>
             <div class="chain-block active">⬡</div>
           </div>
-          <h3>COMING SOON</h3>
+          <h3 id="chain-title">COMING SOON</h3>
           <p>Wallet connection, mining, and blockchain features for NOX will be available here.</p>
           <div class="chain-features">
             <div class="chain-feature">
               <span class="chain-feat-icon">🔗</span>
-              <span>Wallet Connection</span>
+              <span id="feat-wallet">Wallet Connection</span>
             </div>
             <div class="chain-feature">
               <span class="chain-feat-icon">⛏️</span>
-              <span>Mining Rewards</span>
+              <span id="feat-mining">Mining Rewards</span>
             </div>
             <div class="chain-feature">
               <span class="chain-feat-icon">🛡️</span>
-              <span>Decentralized Profile</span>
+              <span id="feat-profile">Decentralized Profile</span>
             </div>
           </div>
         </div>
@@ -2563,7 +2570,7 @@ body {
         </div>
       </div>
       <div class="ai-input-area">
-        <input type="text" id="ai-input" placeholder="Ask NOX anything..." onkeydown="if(event.key==='Enter')sendAI()">
+        <input type="text" id="ai-input" id="ai-hint" placeholder="Ask NOX anything..." onkeydown="if(event.key==='Enter')sendAI()">
         <button class="btn-primary" onclick="sendAI()">→</button>
       </div>
     </div>
@@ -2576,7 +2583,7 @@ body {
       </div>
       <div class="settings-body">
         <div class="settings-item">
-          <span>Language</span>
+          <span id="set-lang">Language</span>
           <div class="settings-lang-row">
             <button class="settings-lang-btn active" data-lang="en" onclick="changeLang('en',this)">🇬🇧 EN</button>
             <button class="settings-lang-btn" data-lang="ru" onclick="changeLang('ru',this)">🇷🇺 RU</button>
@@ -2584,24 +2591,24 @@ body {
           </div>
         </div>
         <div class="settings-item">
-          <span>Dark Mode</span>
+          <span id="set-dark">Dark Mode</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="settings-item">
-          <span>Notifications</span>
+          <span id="set-notif">Notifications</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="settings-item">
-          <span>AI Suggestions</span>
+          <span id="set-ai">AI Suggestions</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="settings-item">
-          <span>Sound Effects</span>
+          <span id="set-sound">Sound Effects</span>
           <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </div>
         <div class="settings-item danger">
-          <span>Reset All Data</span>
-          <button class="btn-danger" onclick="resetData()">RESET</button>
+          <span id="set-reset-label">Reset All Data</span>
+          <button class="btn-danger" id="set-reset-btn" onclick="resetData()">RESET</button>
         </div>
       </div>
     </div>
